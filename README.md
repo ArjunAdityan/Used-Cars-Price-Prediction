@@ -1,0 +1,4 @@
+The project predicts the prices of Used Cars from the Kaggle's Used Car dataset. This dataset is a part of the Cohort-4 KaggleX Skill Assessment Challenge that took place on may 2024.
+The kaggle_cohort_test contains the preprocessing and feature engineering done on the encoded_test dataset to make predictions. Analysis and Evaluation of different machine learning models are done in the kaggle_cohort_submission file.
+The Bagged random forest model seemed to give the better performance on the encoded_train dataset, but yet the Voting(Bagged XGB + Bagged Random Forest) did better on the test set (it actually grabbed the first rank in the KaggleX skill assessment challenge).
+The voting regressor model is deployed into a webpage using flask, HTML, and CSS. app.py and index.html contain the code for the flask app and html webpage respectively.
