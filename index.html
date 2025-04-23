@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Price Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Oswald', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://www.shutterstock.com/image-illustration/powerful-acceleration-generic-red-formula-one-2529063703') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+        .page-container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(200, 200, 200, 0.9); /* Semi-transparent metallic silver */
+            border: 4px solid #8b0000; /* Deep rusted red border */
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            background-image: linear-gradient(45deg, #d3d3d3 25%, #c0c0c0 25%, #c0c0c0 50%, #d3d3d3 50%, #d3d3d3 75%, #c0c0c0 75%, #c0c0c0);
+            background-size: 40px 40px; /* Checkerplate texture */
+        }
+        h1 {
+            font-family: 'Anton', sans-serif;
+            color: #1e3a8a; /* Deep navy blue */
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: #8b0000; /* Rusted red background */
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            color: #f5f5f5; /* Off-white text */
+        }
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            background: rgba(245, 245, 245, 0.7); /* Off-white semi-transparent layer */
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px dashed #1e3a8a; /* Dashed navy border */
+        }
+        .form-group {
+            min-width: 180px;
+            position: relative;
+            background: #d3d3d3; /* Light metallic gray */
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #333;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #8b0000; /* Rusted red */
+            font-weight: 700;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 8px;
+            background: #f5f5f5; /* Off-white */
+            border: 1px solid #1e3a8a; /* Navy blue border */
+            border-radius: 5px;
+            color: #333;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1em;
+            box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .form-group select:focus, .form-group input:focus {
+            outline: none;
+            border-color: #8b0000; /* Rusted red on focus */
+            box-shadow: 0 0 8px rgba(139, 0, 0, 0.5);
+        }
+        button {
+            background: linear-gradient(45deg, #1e3a8a, #8b0000); /* Navy to rusted red gradient */
+            color: #f5f5f5; /* Off-white text */
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: 'Anton', sans-serif;
+            font-size: 1.3em;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: linear-gradient(45deg, #8b0000, #1e3a8a); /* Reverse gradient on hover */
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+        }
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            color: #1e3a8a; /* Navy blue */
+            font-family: 'Anton', sans-serif;
+            background: #f5f5f5; /* Off-white background */
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <h1>Car Price Predictor</h1>
+        <form method="POST">
+            <div class="form-container">
+                <!-- Categorical Features -->
+                <div class="form-group">
+                    <label for="brand">Brand:</label>
+                    <select name="brand" id="brand" required>
+                        {% for brand in brands %}
+                            <option value="{{ brand }}">{{ brand }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="model">Model:</label>
+                    <select name="model" id="model" required>
+                        {% for model in models %}
+                            <option value="{{ model }}">{{ model }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fuel_type">Fuel Type:</label>
+                    <select name="fuel_type" id="fuel_type" required>
+                        {% for fuel_type in fuel_types %}
+                            <option value="{{ fuel_type }}">{{ fuel_type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ext_col">Exterior Color:</label>
+                    <select name="ext_col" id="ext_col" required>
+                        {% for ext_col in ext_cols %}
+                            <option value="{{ ext_col }}">{{ ext_col }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="int_col">Interior Color:</label>
+                    <select name="int_col" id="int_col" required>
+                        {% for int_col in int_cols %}
+                            <option value="{{ int_col }}">{{ int_col }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="accident">Accident History:</label>
+                    <select name="accident" id="accident" required>
+                        {% for accident in accidents %}
+                            <option value="{{ accident }}">{{ accident }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="automatic">Transmission:</label>
+                    <select name="automatic" id="automatic" required>
+                        {% for automatic in automatics %}
+                            <option value="{{ automatic }}">{{ automatic }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cylinder_info">Cylinder Info:</label>
+                    <select name="cylinder_info" id="cylinder_info" required>
+                        {% for cylinder_info in cylinder_infos %}
+                            <option value="{{ cylinder_info }}">{{ cylinder_info }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="engine_type">Engine Type:</label>
+                    <select name="engine_type" id="engine_type" required>
+                        {% for engine_type in engine_types %}
+                            <option value="{{ engine_type }}">{{ engine_type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <!-- Numerical Features -->
+                <div class="form-group">
+                    <label for="model_year">Model Year:</label>
+                    <input type="number" name="model_year" id="model_year" step="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="milage">Mileage:</label>
+                    <input type="number" name="milage" id="milage" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="litre">Engine Size (Litre):</label>
+                    <input type="number" name="litre" id="litre" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="hp">Horsepower:</label>
+                    <input type="number" name="hp" id="hp" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="speed">Top Speed:</label>
+                    <input type="number" name="speed" id="speed" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="voltage">Battery Voltage:</label>
+                    <input type="number" name="voltage" id="voltage" step="0.01" required>
+                </div>
+            </div>
+            <button type="submit">Predict Price</button>
+        </form>
+        {% if prediction is defined %}
+            <h2>Predicted Price: ${{ "{:.2f}".format(prediction) }}</h2>
+        {% endif %}
+    </div>
+</body>
+</html>
