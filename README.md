@@ -17,34 +17,6 @@ app.py – Backend logic for the Flask application.
 
 templates/index.html – Frontend interface for user interaction.
 
-🚀 Getting Started
-To run the application locally:
-
-Clone the repository:
-
-bash
-Copy
-Edit
-git clone https://github.com/your-username/used-car-price-prediction.git
-cd used-car-price-prediction
-Install required packages:
-
-bash
-Copy
-Edit
-pip install -r requirements.txt
-Run the Flask app:
-
-bash
-Copy
-Edit
-python app.py
-Open your browser and go to:
-
-arduino
-Copy
-Edit
-http://localhost:5000/
 📦 Files and Directories
 
 File/Directory	Description
